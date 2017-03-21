@@ -551,8 +551,7 @@ mcIgraph <- as(mcWeather, "igraph")
 @
 
 <<exporImport2, keep.source=TRUE>>=
-library(msm)
-data(cav)
+require(msm)
 Q <- rbind ( c(0, 0.25, 0, 0.25),
              c(0.166, 0, 0.166, 0.166),
              c(0, 0.25, 0, 0.25),
@@ -1043,8 +1042,7 @@ SE_{ij} = \frac{ {\hat p^{MLE}}_{ij} }{\sqrt{n_{ij}}}
 \end{equation}
 
 <<fitMcbyMLE, keep.source=TRUE>>=
-weatherFittedMLE <- markovchainFit(data = weathersOfDays, method = "mle",
-                                 name = "Weather MLE")
+weatherFittedMLE <- markovchainFit(data = weathersOfDays, method = "mle",name = "Weather MLE")
 weatherFittedMLE$estimate
 weatherFittedMLE$standardError
 @
@@ -1077,6 +1075,7 @@ as code below shows.
 createSequenceMatrix(stringchar = weathersOfDays)
 @
 
+\code{stringchar} could contain \code{NA} values, and the transitions containing \code{NA} would be ignored.
 
 An issue occurs when the sample contains only one realization of a state (say $X_{\beta}$) which is located at the end of the data sequence, since it yields to a row of zero (no sample to estimate the conditional
 distribution of the transition). In this case the estimated transition matrix is
@@ -1216,6 +1215,7 @@ markovchainListFit(data=mylist)
 @
 
 
+If any transition contains \code{NA}, it will be ignored in the results.
 
 
 
@@ -2179,6 +2179,16 @@ PVFP <- P*(T1[1] * 1.05 ^ -0 + T2[1] * 1.05 ^ -1)
 V <- PVFB - PVFP
 V
 @
+
+An applied example can be performed using the data from \cite{de2016assicurazioni} that has been saved
+in the \code{exdata} folder.
+
+<<healthIns6, keep.source=TRUE>>=
+ltcDemoPath<-system.file("extdata", "ltdItaData.txt", package = "markovchain")
+ltcDemo<-read.table(file = ltcDemoPath, header=TRUE, sep=";",dec = ".")
+head(ltcDemo)
+@
+
 
 \subsection{Sociology}\label{app:sociology}
 
